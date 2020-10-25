@@ -14,11 +14,11 @@ LiquidCrystal lcd = LiquidCrystal(2, 3, 4, 5, 6, 7);
 char buffer[30];
 
 char const *animals[] = {"snake", "dog", "cat", "elephant", "groundhog", "fox", "wolf"};
+char const *animals[] = {"snake", "dog", "cat", "elephant", "groundhog", "fox", "wolf", "ram", "toucan", "alpaca", "pig", "pigeon", "manatee", "cheetah", "bear", "worm", "goat", "sealion", "centipede", "koala", "octopus", "sheep", "sardine", "cow", "bull", "roach", "oyster", "killer whale", "deer", "horse", "seahorse", "platypus", "whale", "seagull", "lion", "tiger", "hamster", "frog", "bat", "swan", "rat", "falcon", "raven", "bedbug"};
 int playerScore = 0;
 int RECV_PIN = 8;
 IRrecv irrecv(RECV_PIN);
 decode_results results;
-unsigned long key_value = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -26,6 +26,7 @@ void setup() {
   // we are using a 16x2 LCD
   irrecv.enableIRIn(); // Start the receiver
   irrecv.blink13(true);
+  randomSeed(analogRead(0))
 }
 
 void loop() {
@@ -45,19 +46,22 @@ void runGame() {
     while (!irrecv.decode(&results)) {
 
     }
-    if (results.value == 0XFFFFFFFF)
-      results.value = key_value;
-
+    Serial.println(results.value);
+    Serial.println(results.value, HEX);
     switch (results.value) {
-      case 0xFFC23D:
-        Serial.println("skip");
-        break;
-      case 0xFF02FD:
+      case 16712445:
         Serial.println("play");
         playerScore++;
+        Serial.println(playerScore);
+        break;
+      case 16761405:
+        Serial.println("skip");
+        break;
+      default:
+        Serial.println("invalid keypress");
+        i--;
         break;
     }
-    key_value = results.value;
     irrecv.resume();
     delay(500);
   }
