@@ -23,6 +23,8 @@ void setup() {
   Serial.begin(9600);
   lcd.begin(16, 2);
   // we are using a 16x2 LCD
+  lcd.setCursor(2, 0);
+  lcd.print("                             ");
   irrecv.enableIRIn(); // Start the receiver
   irrecv.blink13(true);
   randomSeed(analogRead(0));
