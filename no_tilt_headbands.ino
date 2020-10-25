@@ -14,6 +14,10 @@
 LiquidCrystal lcd = LiquidCrystal(2, 3, 4, 5, 6, 7);
 char buffer[30];
 
+int S = 0; // count seconds
+int M = 1; // count minutes
+int H = 0; // count hours
+
 char const *animals[] = {"snake", "dog", "cat", "elephant", "groundhog", "fox", "wolf", "ram", "toucan", "alpaca", "pig", "pigeon", "manatee", "cheetah", "bear", "worm", "goat", "sealion", "centipede", "koala", "octopus", "sheep", "sardine", "cow", "bull", "roach", "oyster", "killer whale", "deer", "horse", "seahorse", "platypus", "whale", "seagull", "lion", "tiger", "hamster", "frog", "bat", "swan", "rat", "falcon", "raven", "bedbug"};
 int playerScore = 0;
 int RECV_PIN = 8;
@@ -32,6 +36,73 @@ void setup() {
 }
 
 void loop() {
+  lcd.setCursor(6, 1);
+  lcd.print(":");
+  lcd.setCursor(9, 1);
+  lcd.print(":");
+
+  S--;
+  delay(1000);
+
+  if (S < 0)
+  {
+    M--;
+    S = 59;
+  }
+  if (M < 0)
+  {
+    H--;
+    M = 59;
+  }
+  if (H < 0) {
+    H = 23;
+    M = 59;
+    S = 59;
+  } if (M > 9)
+  {
+    lcd.setCursor(7, 1);
+    lcd.print(M);
+  }
+  else
+  {
+    lcd.setCursor(7, 1);
+    lcd.print("0");
+    lcd.setCursor(8, 1);
+    lcd.print(M);
+    lcd.setCursor(9, 1);
+    lcd.print(":");
+  }
+
+  if (S > 9)
+  {
+    lcd.setCursor(10, 1);
+    lcd.print(S);
+  }
+  else
+  {
+    lcd.setCursor(10, 1);
+    lcd.print("0");
+    lcd.setCursor(11, 1);
+    lcd.print(S);
+    lcd.setCursor(12, 1);
+    lcd.print(" ");
+  }
+
+  if (H > 9)
+  {
+    lcd.setCursor(4, 1);
+    lcd.print (H);
+  }
+  else
+  {
+    lcd.setCursor(4, 1);
+    lcd.print("0");
+    lcd.setCursor(5, 1);
+    lcd.print(H);
+    lcd.setCursor(6, 1);
+    lcd.print(":");
+  }
+
   runGame();
 }
 
@@ -79,30 +150,4 @@ void shuffle() {
     animals[i] = animals[j];
     animals[j] = t;
   }
-}
-
-int setupHours = 0;     // How many hours will count down when started
-int setupMinutes = 1;   // How many minutes will count down when started
-int setupSeconds = 0;   // How many seconds will count down when started
-time_t setupTime = 0;
-
-int currentHours = 0;
-int currentMinutes = 0;
-int currentSeconds = 0;
-time_t currentTime = 0;
-
-time_t startTime = 0;
-time_t elapsedTime = 0;
-
-void timer() {
-  lcd.print("Counting down...");
-  lcd.setCursor(0, 1);
-  if (hour(currentTime) < 10) lcd.print("0");
-  lcd.print(hour(currentTime));
-  lcd.print(":");
-  if (minute(currentTime) < 10) lcd.print("0");
-  lcd.print(minute(currentTime));
-  lcd.print(":");
-  if (second(currentTime) < 10) lcd.print("0");
-  lcd.print(second(currentTime));
 }
