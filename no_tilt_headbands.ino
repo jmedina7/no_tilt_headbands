@@ -10,6 +10,7 @@
 
 #include <IRremote.h>
 #include <LiquidCrystal.h>
+#include <TimeLib.h>
 LiquidCrystal lcd = LiquidCrystal(2, 3, 4, 5, 6, 7);
 char buffer[30];
 
@@ -78,4 +79,30 @@ void shuffle() {
     animals[i] = animals[j];
     animals[j] = t;
   }
+}
+
+int setupHours = 0;     // How many hours will count down when started
+int setupMinutes = 1;   // How many minutes will count down when started
+int setupSeconds = 0;   // How many seconds will count down when started
+time_t setupTime = 0;
+
+int currentHours = 0;
+int currentMinutes = 0;
+int currentSeconds = 0;
+time_t currentTime = 0;
+
+time_t startTime = 0;
+time_t elapsedTime = 0;
+
+void timer() {
+  lcd.print("Counting down...");
+  lcd.setCursor(0, 1);
+  if (hour(currentTime) < 10) lcd.print("0");
+  lcd.print(hour(currentTime));
+  lcd.print(":");
+  if (minute(currentTime) < 10) lcd.print("0");
+  lcd.print(minute(currentTime));
+  lcd.print(":");
+  if (second(currentTime) < 10) lcd.print("0");
+  lcd.print(second(currentTime));
 }
