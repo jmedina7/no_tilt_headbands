@@ -25,7 +25,7 @@ void setup() {
   // we are using a 16x2 LCD
   irrecv.enableIRIn(); // Start the receiver
   irrecv.blink13(true);
-  randomSeed(analogRead(0))
+  randomSeed(analogRead(0));
 }
 
 void loop() {
