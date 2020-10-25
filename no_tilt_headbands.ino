@@ -18,6 +18,7 @@ int playerScore = 0;
 int RECV_PIN = 8;
 IRrecv irrecv(RECV_PIN);
 decode_results results;
+unsigned long key_value = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -28,24 +29,37 @@ void setup() {
 }
 
 void loop() {
-  if (irrecv.decode(&results))
-  {
-    Serial.println(results.value, HEX);
-    irrecv.resume(); // Receive the next value
-  }
   runGame();
 }
 
 void runGame() {
+  const size_t n = sizeof(animals) / sizeof(animals[0]);
   shuffle();
   // start text on first row, third column
-  for (int i = 0; i < 7; i++) {
+  for (int i = 0; i < n; i++) {
     lcd.setCursor(2, 0);
     lcd.print("                             ");
     lcd.setCursor(2, 0);
     lcd.print(animals[i]);
     Serial.println(animals[i]);
-    delay(1000);
+    while (!irrecv.decode(&results)) {
+
+    }
+    if (results.value == 0XFFFFFFFF)
+      results.value = key_value;
+
+    switch (results.value) {
+      case 0xFFC23D:
+        Serial.println("skip");
+        break;
+      case 0xFF02FD:
+        Serial.println("play");
+        playerScore++;
+        break;
+    }
+    key_value = results.value;
+    irrecv.resume();
+    delay(500);
   }
 }
 
