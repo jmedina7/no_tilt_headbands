@@ -34,6 +34,10 @@ void loop() {
     irrecv.resume(); // Receive the next value
   }
   runGame();
+}
+
+void runGame() {
+  shuffle();
   // start text on first row, third column
   for (int i = 0; i < 7; i++) {
     lcd.setCursor(2, 0);
@@ -43,10 +47,9 @@ void loop() {
     Serial.println(animals[i]);
     delay(1000);
   }
-  Serial.println("we done");
 }
 
-void runGame() {
+void shuffle() {
   const size_t n = sizeof(animals) / sizeof(animals[0]);
   for (size_t i = 0; i < n - 1; i++)
   {
@@ -56,5 +59,4 @@ void runGame() {
     animals[i] = animals[j];
     animals[j] = t;
   }
-
 }
