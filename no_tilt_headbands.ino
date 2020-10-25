@@ -13,7 +13,6 @@
 LiquidCrystal lcd = LiquidCrystal(2, 3, 4, 5, 6, 7);
 char buffer[30];
 
-char const *animals[] = {"snake", "dog", "cat", "elephant", "groundhog", "fox", "wolf"};
 char const *animals[] = {"snake", "dog", "cat", "elephant", "groundhog", "fox", "wolf", "ram", "toucan", "alpaca", "pig", "pigeon", "manatee", "cheetah", "bear", "worm", "goat", "sealion", "centipede", "koala", "octopus", "sheep", "sardine", "cow", "bull", "roach", "oyster", "killer whale", "deer", "horse", "seahorse", "platypus", "whale", "seagull", "lion", "tiger", "hamster", "frog", "bat", "swan", "rat", "falcon", "raven", "bedbug"};
 int playerScore = 0;
 int RECV_PIN = 8;
